@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 
+require('dotenv').config();
+
 //crear el servidor
 const server = express();
 
@@ -14,15 +16,15 @@ async function getDBConnection() {
     const connection = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: '1234',
-        database: 'temazos_db'
+        password: process.env.PASSWORD_DB,
+        database: process.env.USER_DB
     });
     connection.connect();
     return connection;
 }
 
 //escuchar el puerto
-const port = 5003;
+const port = process.env.PORT;
 server.listen(port, () => {
     console.log(`Server is running. Go to http://localhost:${port}`);
 })
