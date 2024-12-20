@@ -24,7 +24,7 @@ async function getDBConnection() {
 }
 
 //escuchar el puerto
-const port = process.env.PORT;
+const port = 5003;
 server.listen(port, () => {
     console.log(`Server is running. Go to http://localhost:${port}`);
 })
@@ -39,15 +39,24 @@ server.listen(port, () => {
 
 server.post("/api/song", async (req, res) => {
     const { name, artist, genre } = req.body;
-    const connection = await getDBConnection();
-    const query = "INSERT INTO songs (name, artist, genre) VALUES (?, ?, ?)";
-    const [result] = await connection.query(query, [name, artist, genre]);
-    // console.log(result);
-    connection.end();
-    res.status(201).json({
-        success: true,
-        id: result.insertId
-    });
+    //si no existe nombre o artista da error y un mensaje
+    if (!name || !artist) {
+        res.status(400).json({
+            success: false,
+            message: "Missing fields"
+        })
+    } else {
+        const connection = await getDBConnection();
+        const query = "INSERT INTO songs (name, artist, genre) VALUES (?, ?, ?)";
+        const [result] = await connection.query(query, [name, artist, genre]);
+        // console.log(result);
+        connection.end();
+        res.status(201).json({
+            success: true,
+            id: result.insertId
+        });
+    }
+
 })
 
 
