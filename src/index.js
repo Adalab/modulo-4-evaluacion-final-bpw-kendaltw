@@ -35,10 +35,22 @@ server.post("/api/song", async (req, res) => {
     const connection = await getDBConnection();
     const query = "INSERT INTO songs (name, artist, genre) VALUES (?, ?, ?)";
     const [result] = await connection.query(query, [name, artist, genre]);
-    console.log(result);
+    // console.log(result);
     connection.end();
     res.status(201).json({
         success: true,
         id: result.insertId
+    });
+})
+
+//Listar todos los temazos
+server.get("/api/songs", async (req, res) => {
+    const connection = await getDBConnection();
+    const query = "SELECT * FROM songs";
+    const [result] = await connection.query(query);
+    // console.log(result);
+    connection.end();
+    res.status(200).json({
+        results: result
     });
 })
