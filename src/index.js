@@ -27,9 +27,14 @@ server.listen(port, () => {
     console.log(`Server is running. Go to http://localhost:${port}`);
 })
 
+
+
+
 //Endpoints
 
+
 //insertar una canción
+
 server.post("/api/song", async (req, res) => {
     const { name, artist, genre } = req.body;
     const connection = await getDBConnection();
@@ -43,7 +48,9 @@ server.post("/api/song", async (req, res) => {
     });
 })
 
+
 //Listar todos los temazos
+
 server.get("/api/songs", async (req, res) => {
     const connection = await getDBConnection();
     const query = "SELECT * FROM songs";
@@ -55,7 +62,9 @@ server.get("/api/songs", async (req, res) => {
     });
 })
 
+
 //Actualizar un temazo con url params
+
 server.put("/api/song/:id", async (req, res) => {
     const id = req.params.id;
     const { name, artist, genre } = req.body;
@@ -67,4 +76,16 @@ server.put("/api/song/:id", async (req, res) => {
     res.status(200).json({
         success: true
     });
+})
+
+
+//Eliminar una canción
+
+server.delete("/api/song/:id", async (req, res) => {
+    const id = req.params.id;
+    const connection = await getDBConnection();
+    const query = "DELETE from songs WHERE id = ?";
+    const [result] = await connection.query(query, [id])
+    console.log(result);
+    res.status(200).json({ success: true });
 })
