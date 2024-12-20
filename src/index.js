@@ -14,17 +14,18 @@ server.use(express.json());
 //funcion para conectar la base de datos
 async function getDBConnection() {
     const connection = await mysql.createConnection({
-        host: "localhost",
-        user: "root",
+        host: "m5lze.h.filess.io",
         password: process.env.PASSWORD_DB,
-        database: process.env.USER_DB
+        user: process.env.USER_DB,
+        database: "EvaluacionModulo4Kendal_television",
+        port: process.env.PORT
     });
     connection.connect();
     return connection;
 }
 
 //escuchar el puerto
-const port = process.env.PORT;
+const port = process.env.PORT || 5003;
 server.listen(port, () => {
     console.log(`Server is running. Go to http://localhost:${port}`);
 })
