@@ -26,5 +26,14 @@ UPDATE songs SET name = "The Emptiness Machine", artist = "Linkin Park", genre =
 
 DELETE from songs WHERE id = 3;
 
+CREATE TABLE song_details (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ lyrics TEXT NOT NULL,
+ melody TEXT,
+ fk_songs INT,
+ CONSTRAINT fk_songs_details FOREIGN KEY (fk_songs) REFERENCES songs(id)
+ )
+ 
+
 
 
