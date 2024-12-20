@@ -54,3 +54,17 @@ server.get("/api/songs", async (req, res) => {
         results: result
     });
 })
+
+//Actualizar un temazo con url params
+server.put("/api/song/:id", async (req, res) => {
+    const id = req.params.id;
+    const { name, artist, genre } = req.body;
+    const connection = await getDBConnection();
+    const query = "UPDATE songs SET name = ?, artist = ?, genre = ? WHERE id = ?";
+    const [result] = await connection.query(query, [name, artist, genre, id])
+    // console.log(result);
+    connection.end();
+    res.status(200).json({
+        success: true
+    });
+})
