@@ -24,7 +24,7 @@ async function getDBConnection() {
 }
 
 //escuchar el puerto
-const port = 5003;
+const port = process.env.PORT;
 server.listen(port, () => {
     console.log(`Server is running. Go to http://localhost:${port}`);
 })
